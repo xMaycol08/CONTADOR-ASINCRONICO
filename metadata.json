@@ -1,0 +1,5 @@
+{
+  "name": "Simulador de Contador Asíncrono",
+  "description": "Una aplicación web educativa para simular contadores digitales asíncronos (de rizo) utilizando Flip-Flops J-K, con visualizaciones dinámicas de los estados y diagramas de tiempo.",
+  "requestFramePermissions": []
+}
