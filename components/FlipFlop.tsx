@@ -8,64 +8,54 @@ interface FlipFlopProps {
   q: boolean;
   isLabMode: boolean;
   isHighlighted: boolean;
-  clockSource: string;
 }
 
-const FlipFlop: React.FC<FlipFlopProps> = ({ id, label, j, k, q, isLabMode, isHighlighted, clockSource }) => {
+const FlipFlop: React.FC<FlipFlopProps> = ({ id, label, j, k, q, isLabMode, isHighlighted }) => {
   const qVal = q ? 1 : 0;
   const qBarVal = q ? 0 : 1;
   const jVal = j ? 1 : 0;
   const kVal = k ? 1 : 0;
-
-  const qColor = q ? 'text-green-400' : 'text-red-500';
-  const qBarColor = !q ? 'text-green-400' : 'text-red-500';
   const highlightClass = isHighlighted ? 'border-yellow-400 ring-2 ring-yellow-400' : 'border-cyan-700';
 
   return (
-    <div className="flex flex-col items-center font-mono z-10">
-      <span className="font-bold text-base mb-1">{`FF_${label}`}</span>
-      <div className={`relative bg-gray-900 border-2 ${highlightClass} rounded-lg w-32 h-44 flex flex-col justify-between p-1 transition-all duration-300`}>
-        {/* Top section for J input and Q output */}
-        <div className="flex justify-between items-start px-1 pt-1">
-          <div className="flex items-center">
-            <span className="text-sm font-bold w-4 text-center">J</span>
-            <div className="w-2 h-px bg-gray-500"></div>
-            <span className={`text-sm ml-1 ${isLabMode ? 'text-cyan-400' : 'text-gray-500'}`}>{jVal}</span>
-          </div>
-          <div className="flex items-center">
-            <span className={`font-bold text-lg ${qColor}`}>{qVal}</span>
-            <div className="w-2 h-px bg-gray-500"></div>
-            <span className="text-sm font-bold w-4 text-center">Q</span>
-          </div>
-        </div>
+    <div className={`relative bg-gray-900 border-2 ${highlightClass} rounded-md w-full h-full transition-all duration-300 flex items-center justify-center font-mono`}>
+      {/* Input Labels */}
+      <div className="absolute -left-4 top-0 h-full flex flex-col justify-between py-2 text-sm text-gray-400">
+        <span className="h-1/3 flex items-center">J</span>
+        <span className="h-1/3 flex items-center">K</span>
+      </div>
+      
+      {/* CLK Input with correct symbol */}
+      <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-full flex items-center text-sm text-gray-400">
+        <svg width="14" height="14" viewBox="0 0 16 16" className="inline-block -mr-1">
+          <circle cx="4.5" cy="8" r="2.5" fill="#1f2937" stroke="currentColor" strokeWidth="1.2" />
+          <path d="M 7 5 L 12 8 L 7 11 Z" fill="currentColor" />
+        </svg>
+        <span className="ml-1 font-sans">CLK</span>
+      </div>
 
-        {/* Center content: Large Q state */}
-        <div className="flex-grow flex items-center justify-center">
-          <span className={`text-6xl font-bold ${qColor}`}>{qVal}</span>
-        </div>
+      {/* Input value indicators */}
+      <span className={`absolute -left-8 top-1/4 -translate-y-1/2 text-sm ${isLabMode ? 'text-cyan-400' : 'text-gray-500'}`}>{jVal}</span>
+      <span className={`absolute -left-8 top-3/4 -translate-y-1/2 text-sm ${isLabMode ? 'text-cyan-400' : 'text-gray-500'}`}>{kVal}</span>
 
-        {/* Bottom section for K input and Q-bar output */}
-        <div className="flex justify-between items-end px-1 pb-1">
-          <div className="flex items-center">
-            <span className="text-sm font-bold w-4 text-center">K</span>
-            <div className="w-2 h-px bg-gray-500"></div>
-            <span className={`text-sm ml-1 ${isLabMode ? 'text-cyan-400' : 'text-gray-500'}`}>{kVal}</span>
-          </div>
-          <div className="flex items-center">
-            <span className={`font-bold text-lg ${qBarColor}`}>{qBarVal}</span>
-            <div className="w-2 h-px bg-gray-500"></div>
-            <span className="text-sm font-bold w-5 text-center">Q̅</span>
-          </div>
-        </div>
-        
-        {/* CLK input at the bottom center */}
-        <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center">
-             <div className="w-2 h-2 rounded-full border-2 border-gray-400 bg-gray-900 -mb-1"></div>
-             <div className="border-l-4 border-r-4 border-b-6 border-transparent border-transparent border-b-gray-400 -mb-1"></div>
-             <div className="w-px h-2 bg-gray-400"></div>
-             <span className="text-gray-400 text-xs mt-1">{clockSource}</span>
-        </div>
+      {/* Output Labels */}
+      <div className="absolute -right-6 top-0 h-full flex flex-col justify-around py-3 text-sm text-gray-400">
+        <span>Q</span>
+        <span>Q̅</span>
+      </div>
 
+      {/* Output value indicators */}
+      <span className={`absolute -right-9 top-1/4 -translate-y-1/2 text-lg font-bold ${q ? 'text-green-400' : 'text-red-500'}`}>{qVal}</span>
+      <span className={`absolute -right-9 top-3/4 -translate-y-1/2 text-lg font-bold ${!q ? 'text-green-400' : 'text-red-500'}`}>{qBarVal}</span>
+
+      {/* Async Inputs (PR, CL) */}
+      <div className="absolute -top-5 left-1/2 -translate-x-1/2 text-xs text-gray-400">PR</div>
+      <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-xs text-gray-400">CL</div>
+      
+      {/* Main Body */}
+      <div className="text-center">
+        <span className="text-lg font-bold">{`FF_${label}`}</span>
+        <span className={`block text-5xl font-bold opacity-20 ${q ? 'text-green-400' : 'text-red-500'}`}>{qVal}</span>
       </div>
     </div>
   );

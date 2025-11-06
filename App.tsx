@@ -50,7 +50,8 @@ const App: React.FC = () => {
 
     // --- FF_B ---
     const clkB_triggers = (counterMode === CounterMode.MOD16_UP || counterMode === CounterMode.MOD10_UP) || (counterMode === CounterMode.MOD16_UP_DOWN && !modeM);
-    if ((clkB_triggers && qA_fell) || (!clkB_triggers && qA_rose && counterMode !== CounterMode.MOD10_UP)) {
+    // FIX: Removed redundant `counterMode !== CounterMode.MOD10_UP` check as it's always true when `!clkB_triggers` is true.
+    if ((clkB_triggers && qA_fell) || (!clkB_triggers && qA_rose)) {
       nextQ[2] = !prevQ[2];
       if(nextQ[2] !== prevQ[2]) triggeredFfs.push(1);
     }
@@ -59,7 +60,8 @@ const App: React.FC = () => {
 
     // --- FF_C ---
     const clkC_triggers = (counterMode === CounterMode.MOD16_UP || counterMode === CounterMode.MOD10_UP) || (counterMode === CounterMode.MOD16_UP_DOWN && !modeM);
-    if ((clkC_triggers && qB_fell) || (!clkC_triggers && qB_rose && counterMode !== CounterMode.MOD10_UP)) {
+    // FIX: Removed redundant `counterMode !== CounterMode.MOD10_UP` check as it's always true when `!clkC_triggers` is true.
+    if ((clkC_triggers && qB_fell) || (!clkC_triggers && qB_rose)) {
       nextQ[1] = !prevQ[1];
       if(nextQ[1] !== prevQ[1]) triggeredFfs.push(2);
     }
@@ -68,7 +70,8 @@ const App: React.FC = () => {
 
     // --- FF_D (MSB) ---
     const clkD_triggers = (counterMode === CounterMode.MOD16_UP || counterMode === CounterMode.MOD10_UP) || (counterMode === CounterMode.MOD16_UP_DOWN && !modeM);
-    if ((clkD_triggers && qC_fell) || (!clkD_triggers && qC_rose && counterMode !== CounterMode.MOD10_UP)) {
+    // FIX: Removed redundant `counterMode !== CounterMode.MOD10_UP` check as it's always true when `!clkD_triggers` is true.
+    if ((clkD_triggers && qC_fell) || (!clkD_triggers && qC_rose)) {
       nextQ[0] = !prevQ[0];
        if(nextQ[0] !== prevQ[0]) triggeredFfs.push(3);
     }
